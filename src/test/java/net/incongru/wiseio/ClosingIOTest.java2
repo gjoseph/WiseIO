@@ -1,0 +1,102 @@
+/*
+ * Some License
+ * 2009
+ */
+package net.incongru.wiseio;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import org.junit.Test;
+
+import java.io.Closeable;
+import java.io.IOException;
+
+import net.incongru.wiseio.ClosingIO;
+import net.incongru.wiseio.IOOperation;
+
+/**
+ *
+ * @author gjoseph
+ * @version $Revision: $ ($Author: $)
+ */
+public class ClosingIOTest {
+
+    @Test
+    public void emptyIOJustExecutesTheOperation() throws IOException {
+        final IOOperation<Closeable> op = createStrictMock(IOOperation.class);
+        final Closeable flow = createStrictMock(Closeable.class);
+        op.op(flow);
+
+        replay(op, flow);
+        new ClosingIO<Closeable>(op).exec(flow, op);
+        verify(op, flow);
+    }
+
+    @Test
+    public void noExceptionThenClose() throws IOException {
+        final IOOperation<Closeable> op = createStrictMock(IOOperation.class);
+        final Closeable flow = createStrictMock(Closeable.class);
+        op.op(flow);
+        flow.close();
+
+        replay(op, flow);
+        new ClosingIO<Closeable>(op).withClose().exec(flow, op);
+        verify(op, flow);
+    }
+
+    @Test
+    public void operationCausesIOExceptionAndWeGetIt() throws IOException {
+        final IOOperation<Closeable> op = createStrictMock(IOOperation.class);
+        final Closeable flow = createStrictMock(Closeable.class);
+        op.op(flow);
+        expectLastCall().andThrow(new IOException("Operation failed"));
+        flow.close();
+
+        replay(op, flow);
+        try {
+            new ClosingIO<Closeable>(op).withClose().exec(flow, op);
+            fail("Test should have failed");
+        } catch (IOException e) {
+            assertEquals("Operation failed", e.getMessage());
+        }
+        verify(op, flow);
+    }
+
+    @Test
+    public void closeCausesIOExceptionAndWeGetIt() throws IOException {
+        final IOOperation<Closeable> op = createStrictMock(IOOperation.class);
+        final Closeable flow = createStrictMock(Closeable.class);
+        op.op(flow);
+        flow.close();
+        expectLastCall().andThrow(new IOException("Closing failed"));
+
+        replay(op, flow);
+        try {
+            new ClosingIO<Closeable>(op).withClose().exec(flow, op);
+            fail("Test should have failed");
+        } catch (IOException e) {
+            assertEquals("Could not close: Closing failed", e.getMessage());
+        }
+        verify(op, flow);
+    }
+
+    @Test
+    public void operationAndCloseBothCauseIOExceptionAndWeGetBothExceptions() throws IOException {
+        final IOOperation<Closeable> op = createStrictMock(IOOperation.class);
+        final Closeable flow = createStrictMock(Closeable.class);
+        op.op(flow);
+        expectLastCall().andThrow(new IOException("Operation failed"));
+        flow.close();
+        expectLastCall().andThrow(new IOException("Closing failed"));
+
+        replay(op, flow);
+        try {
+            new ClosingIO<Closeable>(op).withClose().exec(flow, op);
+            fail("Test should have failed");
+        } catch (IOException e) {
+            assertEquals("Operation failed; an IOException was also thrown when closing: Closing failed", e.getMessage());
+        }
+        verify(op, flow);
+    }
+}

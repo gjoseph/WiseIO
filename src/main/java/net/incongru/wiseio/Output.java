@@ -1,7 +1,3 @@
-/*
- * Some License
- * 2009
- */
 package net.incongru.wiseio;
 
 import java.io.Closeable;
@@ -10,7 +6,7 @@ import java.io.IOException;
 
 /**
  * Executes an operation, flushes the stream as required, closes the stream, wraps exceptions as needed.
- * 
+ *
  * @author gjoseph
  * @version $Revision: $ ($Author: $)
  */
@@ -23,8 +19,8 @@ public class Output<T extends Closeable & Flushable> extends ClosingIO<T> {
     }
 
     // ugly - if we don't do this, then withClose() can only be called last when building an Output
-//    public Output<T> withClose() {
-//        return (Output<T>) super.withClose();
+//    public Output<T> withoutClose() {
+//        return (Output<T>) super.withoutClose();
 //    }
 
     public Output<T> withFlush() {
@@ -78,11 +74,4 @@ public class Output<T extends Closeable & Flushable> extends ClosingIO<T> {
             flow.flush();
         }
     }
-
-//    private final class DelegateToAbstractOpMethodOperation implements IOOperation<T> {
-//        public void op(T flow) throws IOException {
-//            operation();
-//        }
-//    }
-
 }

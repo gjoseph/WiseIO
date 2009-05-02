@@ -1,7 +1,3 @@
-/*
- * Some License
- * 2009
- */
 package net.incongru.wiseio;
 
 import static org.junit.Assert.assertEquals;
@@ -10,8 +6,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Properties;
-
-import net.incongru.wiseio.IOUtil;
 
 /**
  *

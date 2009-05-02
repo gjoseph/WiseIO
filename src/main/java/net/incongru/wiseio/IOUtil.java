@@ -1,7 +1,3 @@
-/*
- * Some License
- * 2009
- */
 package net.incongru.wiseio;
 
 import java.io.IOException;
@@ -25,7 +21,7 @@ public class IOUtil {
             public void op() throws IOException {
                 props.load(in);
             }
-        }).withClose().exec();
+        }).exec();
 
         return props;
     }

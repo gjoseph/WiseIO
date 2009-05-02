@@ -1,7 +1,3 @@
-/*
- * Some License
- * 2009
- */
 package net.incongru.wiseio;
 
 import java.io.Closeable;
@@ -13,20 +9,24 @@ import java.io.IOException;
  * @author gjoseph
  * @version $Revision: $ ($Author: $)
  */
-public  class ClosingIO<T extends Closeable> implements IO<T> {
+public class ClosingIO<T extends Closeable> implements IO<T> {
     private final T flow;
     private final IOOperation op;
-
-    // TODO : this is now useless.
-    private boolean shouldClose;
+    private boolean shouldClose = true;
 
     public ClosingIO(T flow, final IOOperation op) {
+        if (flow == null) {
+            throw new IllegalArgumentException("Can't process a null flow.");
+        }
+        if (op == null) {
+            throw new IllegalArgumentException("IOOperation can't process be null.");
+        }
         this.flow = flow;
         this.op = op;
     }
 
-    public IO<T> withClose() {
-        this.shouldClose = true;
+    public IO<T> withoutClose() {
+        this.shouldClose = false;
         return this;
     }
 
@@ -54,7 +54,6 @@ public  class ClosingIO<T extends Closeable> implements IO<T> {
      * you have access to it, we don't need to pass it around.
      */
 //    abstract void operation() throws IOException;
-
     protected IOException cleanupAndProcessException(IOException e, final T flow) {
         if (shouldClose) {
             try {
@@ -71,10 +70,4 @@ public  class ClosingIO<T extends Closeable> implements IO<T> {
         }
         return e;
     }
-
-//    private final class DelegateToAbstractOpMethodOperation implements IOOperation<T> {
-//        public void op(T flow) throws IOException {
-//            operation();
-//        }
-//    }
 }

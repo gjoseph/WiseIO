@@ -3,10 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.incongru</groupId>
-  <artifactId>io</artifactId>
+  <artifactId>wiseio</artifactId>
   <version>1.0</version>
-  <name>...</name>
-  <description>A little library that deals with IOException nicely. IOUtils.closeSilently()? No thank you.</description>
+  <name>WiseIO</name>
+  <description>
+    A little Java library that attempts to let you deal with IOExceptions nicely.
+    IOUtils.closeSilently()? No thank you.
+  </description>
 
   <dependencies>
     <dependency>
@@ -16,11 +19,57 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <!-- TODO  try Mockito ! -->
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
       <version>2.4</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <testResources>
+      <testResource>
+        <directory>src/test/java</directory>
+        <includes>
+          <include>**/*.properties</include>
+        </includes>
+      </testResource>
+    </testResources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.atlassian.maven.plugins</groupId>
+        <artifactId>maven-clover2-plugin</artifactId>
+        <configuration>
+          <licenseLocation>${user.home}/.m2/clover.license</licenseLocation>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>instrument</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>com.atlassian.maven.plugins</groupId>
+        <artifactId>maven-clover2-plugin</artifactId>
+        <configuration>
+          <licenseLocation>${user.home}/.m2/clover.license</licenseLocation>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>

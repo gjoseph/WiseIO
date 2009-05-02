@@ -1,12 +1,9 @@
-/*
- * Some License
- * 2009
- */
 package net.incongru.wiseio;
 
 import java.io.IOException;
 
 /**
+ * An IOException that wraps another IOException.
  *
  * @author gjoseph
  * @version $Revision: $ ($Author: $)

@@ -1,7 +1,3 @@
-/*
- * Some License
- * 2009
- */
 package net.incongru.wiseio;
 
 import static org.easymock.EasyMock.*;
@@ -29,7 +25,7 @@ public class OutputTest {
         flow.flush();
         flow.close();
         replay(op, flow);
-        new Output<FlushableAndCloseable>(flow, op).withFlushWhenSuccessful().withFlush().withClose().exec();
+        new Output<FlushableAndCloseable>(flow, op).withFlushWhenSuccessful().withFlush().exec();
         verify(op, flow);
     }
 
@@ -41,7 +37,7 @@ public class OutputTest {
         flow.flush();
         flow.close();
         replay(op, flow);
-        new Output<FlushableAndCloseable>(flow, op).withFlush().withClose().exec();
+        new Output<FlushableAndCloseable>(flow, op).withFlush().exec();
         verify(op, flow);
     }
 
@@ -53,7 +49,7 @@ public class OutputTest {
         flow.flush();
         flow.close();
         replay(op, flow);
-        new Output<FlushableAndCloseable>(flow, op).withFlushWhenSuccessful().withClose().exec();
+        new Output<FlushableAndCloseable>(flow, op).withFlushWhenSuccessful().exec();
         verify(op, flow);
     }
 
@@ -70,7 +66,7 @@ public class OutputTest {
 
         replay(op, flow);
         try {
-            new Output<FlushableAndCloseable>(flow, op).withFlush().withFlushWhenSuccessful().withClose().exec();
+            new Output<FlushableAndCloseable>(flow, op).withFlush().withFlushWhenSuccessful().exec();
             fail("Test should have failed");
         } catch (IOException e) {
             assertEquals("Operation failed; an IOException was also thrown when flushing: Flushing failed; an IOException was also thrown when closing: Closing failed", e.getMessage());
@@ -89,10 +85,29 @@ public class OutputTest {
 
         replay(op, flow);
         try {
-            new Output<FlushableAndCloseable>(flow, op).withFlushWhenSuccessful().withClose().exec();
+            new Output<FlushableAndCloseable>(flow, op).withFlushWhenSuccessful().exec();
             fail("Test should have failed");
         } catch (IOException e) {
             assertEquals("Flushing failed", e.getMessage());
+        }
+        verify(op, flow);
+    }
+
+    @Test
+    public void finalFlushFails() throws IOException {
+        final IOOperation op = createStrictMock(IOOperation.class);
+        final FlushableAndCloseable flow = createStrictMock(FlushableAndCloseable.class);
+        op.op();
+        flow.flush();
+        expectLastCall().andThrow(new IOException("Flushing failed"));
+        flow.close();
+
+        replay(op, flow);
+        try {
+            new Output<FlushableAndCloseable>(flow, op).withFlush().exec();
+            fail("Test should have failed");
+        } catch (IOException e) {
+            assertEquals("Could not flush: Flushing failed", e.getMessage());
         }
         verify(op, flow);
     }
@@ -109,7 +124,7 @@ public class OutputTest {
 
         replay(op, flow);
         try {
-            new Output<FlushableAndCloseable>(flow, op).withFlush().withFlushWhenSuccessful().withClose().exec();
+            new Output<FlushableAndCloseable>(flow, op).withFlush().withFlushWhenSuccessful().exec();
             fail("Test should have failed");
         } catch (IOException e) {
             assertEquals("Could not close: Closing failed", e.getMessage());

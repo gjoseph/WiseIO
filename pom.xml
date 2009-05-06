@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.incongru</groupId>
   <artifactId>wiseio</artifactId>
-  <version>1.0</version>
+  <version>1.0-SNAPSHOT</version>
   <name>WiseIO</name>
   <description>
     A little Java library that attempts to let you deal with IOExceptions nicely.
@@ -26,6 +26,21 @@
     </dependency>
   </dependencies>
 
+  <prerequisites>
+    <maven>2.1</maven>
+  </prerequisites>
+
+  <scm>
+    <connection>scm:git:git://github.com/gjoseph/WiseIO.git</connection>
+    <developerConnection>scm:git:git://github.com/gjoseph/WiseIO.git</developerConnection>
+    <url>http://github.com/gjoseph/WiseIO/tree/master</url>
+  </scm>
+
+  <issueManagement>
+    <url>http://github.com/gjoseph/WiseIO/issues</url>
+    <system>GitHub</system>
+  </issueManagement>
+
   <build>
     <testResources>
       <testResource>
@@ -36,6 +51,20 @@
       </testResource>
     </testResources>
     <plugins>
+      <plugin>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>1.0-beta-1</version>
+        <configuration>
+          <rules>
+            <requireMavenVersion>
+              <version>2.1.0</version>
+            </requireMavenVersion>
+            <requireJavaVersion>
+              <version>1.5</version>
+            </requireJavaVersion>
+          </rules>
+        </configuration>
+      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
@@ -59,6 +88,24 @@
         </executions>
       </plugin>
     </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.0-beta-9</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>2.0-beta-7</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ftp</artifactId>
+      </extension>
+    </extensions>
   </build>
 
   <reporting>
@@ -72,4 +119,22 @@
       </plugin>
     </plugins>
   </reporting>
+
+  <distributionManagement>
+    <!-- deploying artifacts on Magnolia's 3rd party repo - which is synched with Central -->
+    <repository>
+      <id>magnolia.3rdparty</id>
+      <url>scp://repo.magnolia-cms.com/sites/repo/3rdparty</url>
+    </repository>
+    <snapshotRepository>
+      <id>magnolia.3rdparty.snapshots</id>
+      <url>scp://repo.magnolia-cms.com/sites/repo/3rdparty-snapshots</url>
+    </snapshotRepository>
+    <!-- deploying sites on Greg's personal domain -->
+    <site>
+      <id>incongru.net</id>
+      <url>ftp://incongru.net/incongru.net/subdomains/www/html/projects/${artifactId}-${version}</url>
+    </site>
+  </distributionManagement>
+
 </project>

@@ -33,7 +33,8 @@
   <scm>
     <connection>scm:git:git://github.com/gjoseph/WiseIO.git</connection>
     <developerConnection>scm:git:git://github.com/gjoseph/WiseIO.git</developerConnection>
-    <url>http://github.com/gjoseph/WiseIO/tree/master</url>
+    <url>scm:git:git://github.com/gjoseph/WiseIO.git</url>
+    <!--<url>http://github.com/gjoseph/WiseIO/tree/master</url>-->
   </scm>
 
   <issueManagement>

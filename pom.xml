@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.incongru</groupId>
   <artifactId>wiseio</artifactId>
-  <version>0.1-test-release-plugin</version>
+  <version>1.0-SNAPSHOT</version>
   <name>WiseIO</name>
   <description>
     A little Java library that attempts to let you deal with IOExceptions nicely.

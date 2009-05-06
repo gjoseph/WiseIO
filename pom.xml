@@ -39,6 +39,13 @@
     <system>GitHub</system>
   </issueManagement>
 
+  <developers>
+    <developer>
+      <id>gjoseph</id>
+      <name>Grégory Joseph</name>
+    </developer>
+  </developers>
+
   <build>
     <testResources>
       <testResource>

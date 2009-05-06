@@ -32,9 +32,7 @@
 
   <scm>
     <connection>scm:git:git://github.com/gjoseph/WiseIO.git</connection>
-    <!--<developerConnection>scm:git:git://github.com/gjoseph/WiseIO.git</developerConnection>-->
-    <url>scm:git:git://github.com/gjoseph/WiseIO.git</url>
-    <!--<url>http://github.com/gjoseph/WiseIO/tree/master</url>-->
+    <url>http://github.com/gjoseph/WiseIO/tree/master</url>
   </scm>
 
   <issueManagement>
@@ -94,24 +92,10 @@
         <plugin>
           <artifactId>maven-release-plugin</artifactId>
           <version>2.0-beta-9</version>
-          <dependencies>
-            <dependency>
-              <groupId>org.apache.maven.scm</groupId>
-              <artifactId>maven-scm-provider-gitexe</artifactId>
-              <version>1.2</version>
-            </dependency>
-          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-scm-plugin</artifactId>
-          <dependencies>
-            <dependency>
-              <groupId>org.apache.maven.scm</groupId>
-              <artifactId>maven-scm-provider-gitexe</artifactId>
-              <version>1.2</version>
-            </dependency>
-          </dependencies>
         </plugin>
         <plugin>
           <artifactId>maven-site-plugin</artifactId>

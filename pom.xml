@@ -136,6 +136,7 @@
     <!-- deploying sites on Greg's personal domain -->
     <site>
       <id>incongru.net</id>
+      <!-- When http://jira.codehaus.org/browse/WAGON-265 is fixed: /${artifactId}/${version} -->
       <url>ftp://incongru.net/incongru.net/subdomains/www/html/projects/${artifactId}</url>
     </site>
   </distributionManagement>
